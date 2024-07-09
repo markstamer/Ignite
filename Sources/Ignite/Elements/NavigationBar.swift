@@ -13,18 +13,6 @@ public protocol NavigationItem: InlineElement { }
 /// A bar that sits across the top of your page to provide top-level navigation
 /// throughout your site.
 public struct NavigationBar: BlockElement {
-    /// The color scheme for this navigation bar.
-    public enum NavigationBarStyle {
-        /// No specific color scheme means this bar will be rendered using
-        /// automatic settings.
-        case `default`
-
-        /// This bar must always be rendered in light mode.
-        case light
-
-        /// This bar must always be rendered in dark mode.
-        case dark
-    }
 
     /// How navigation bar items should be aligned horizontally.
     public enum ItemAlignment: String {
@@ -52,7 +40,7 @@ public struct NavigationBar: BlockElement {
     let items: [NavigationItem]
 
     /// The style to use when rendering this bar.
-    var style = NavigationBarStyle.default
+    var style = ColorScheme.auto
 
     /// How items in this navigation bar should be aligned
     var itemAlignment = ItemAlignment.default
@@ -84,7 +72,7 @@ public struct NavigationBar: BlockElement {
     /// Adjusts the style of this navigation bar.
     /// - Parameter style: The new style.
     /// - Returns: A new `NavigationBar` instance with the updated style.
-    public func navigationBarStyle(_ style: NavigationBarStyle) -> Self {
+    public func navigationBarStyle(_ style: ColorScheme) -> Self {
         var copy = self
         copy.style = style
         return copy
@@ -107,14 +95,6 @@ public struct NavigationBar: BlockElement {
         var copy = self
         copy.itemAlignment = alignment
         return copy
-    }
-
-    func theme(for style: NavigationBarStyle) -> String? {
-        switch style {
-        case .default: nil
-        case .light: "light"
-        case .dark: "dark"
-        }
     }
 
     /// Renders this element using publishing context passed in.
@@ -171,7 +151,6 @@ public struct NavigationBar: BlockElement {
             }
             .attributes(attributes)
             .class("navbar", "navbar-expand-md")
-            .data("bs-theme", theme(for: style))
         }
         .render(context: context)
     }
