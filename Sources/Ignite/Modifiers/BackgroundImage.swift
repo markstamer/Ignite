@@ -1,5 +1,4 @@
 import Foundation
-import Ignite
 
 public extension PageElement {
     func backgroundImage(_ name: String, contentMode: BackgroundImageContentMode, repeats: Bool = false) -> Self {
